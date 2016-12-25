@@ -1,0 +1,55 @@
+html, body{
+    height:100%;
+    margin:0;
+}
+body{
+    background:url(http://sumtechservices.com/oakleymotorsports/site/wp-content/uploads/2013/09/black-honeycomb.jpg), top left no-repeat;
+    background:url(https://s-media-cache-ak0.pinimg.com/originals/e4/69/19/e469197f0b71bc8f1176c8bca0394836.jpg), top left no-repeat;
+    -webkit-background-size:100% 100%;
+    background-size:100% 100%;
+    display: flex;
+    align-items:center;
+}
+.screen{
+    margin:auto;
+    border:1px solid black;
+    width: 1200px;
+    height: 750px;
+    background:#333;
+    box-shadow:0 0 10px black;
+}
+.screen > div {
+    width:100%;
+    height:100%;
+}
+.screen h3 {
+    padding-left: 10px;
+    border-bottom: 1px solid black;
+    background: #222;
+    color: #aaa;
+    margin: 0;
+    height: 50px;
+    display: flex;
+    align-items:center;
+}
+
+
+.characters > div {
+    width: 150px;
+    height: 250px;
+    cursor: pointer;
+    background: #222;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid black;
+    box-shadow: 0 0 1px 1px #3e3d3d;
+}
+
+.characters {
+    padding: 50px;
+}
+
+.characters > div img {
+    width: 100%;
+    height: 100%;
+}
