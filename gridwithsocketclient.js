@@ -1,29 +1,24 @@
-function Main(game) {
+var socketioscript = document.createElement('script');
+socketioscript.src = '/socket.io/socket.io.js';
+document.head.appendChild(socketioscript);
+function Grid(game) {
     this.socket = io();
-    this.player;
     this.items = [];
     this.game = game;
-
-
-
+    this.events = {};
 }
 
-Main.prototype = {
-    init : function(cb){
-        this.setupSockets(cb);
+Grid.prototype = {
+    init : function(){
+        this.setupSockets();
     },
-
-    setupSockets : function (cb) {
+    register : function (event, cb) {
+        this.events[event] = cb;
+    },
+    setupSockets : function () {
         var self = this;
         this.socket.on('player', function (item) {
-            self.player = item;
-            // self.player
-            // = self.draw(item.x, item.y);
-            self.player = self.game.add.sprite(item.x, item.y, 'ship');
-            self.player.scale.set(0.4);
-            self.player.anchor.setTo(0.5, 0.5);
-            self.game.physics.arcade.enable(self.player, Phaser.Physics.ARCADE);
-            cb(self.player);
+            self.events['createplayer'] && self.events['createplayer'](self.player);
         });
         this.socket.on('items', function (items) {
             self.clearItemsNotNearBy(items);
@@ -32,7 +27,6 @@ Main.prototype = {
             }
         });
         this.socket.on('create item', function (item) {
-            console.log('create');
             self.items.push(self.draw(item));
         });
         this.socket.on('update item', function (item) {
@@ -57,11 +51,6 @@ Main.prototype = {
     },
     updatePlayer : function () {
         this.socket.emit('update player', {x : this.player.x, y : this.player.y});
-    },
-    update : function () {
-
-
-
     },
     getItemById : function (item) {
         for(var i = 0; i < this.items.length; i++)

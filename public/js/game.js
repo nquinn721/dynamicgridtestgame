@@ -6,7 +6,7 @@ function startGame() {
         update: update,
         render: render
     });
-    var main, cursors;
+    var grid, cursors, player;
 
 
     function preload() {
@@ -15,8 +15,14 @@ function startGame() {
     }
 
     function create() {
-        main = new Main(game);
-        main.init(function (player) {
+        grid = new Grid(game);
+        grid.init();
+        grid.register('createplayer', function (p) {
+            player = game.add.sprite(p.x, p.y, 'ship');
+            player.scale.set(0.4);
+            player.anchor.setTo(0.5, 0.5);
+            game.physics.arcade.enable(player, Phaser.Physics.ARCADE);
+
             game.world.setBounds(0, 0, 1200, 700);
             game.physics.startSystem(Phaser.Physics.P2JS);
             cursors = game.input.keyboard.createCursorKeys();
@@ -30,17 +36,17 @@ function startGame() {
 
     function update() {
 
-        if(main.player){
+        if(player){
 
             if (game.input.keyboard.isDown(Phaser.Keyboard.W)){
-                game.physics.arcade.moveToPointer(main.player, 200);
-                if (Phaser.Rectangle.contains(main.player.body, game.input.x, game.input.y)){
-                    main.player.body.velocity.setTo(0, 0);
+                game.physics.arcade.moveToPointer(player, 200);
+                if (Phaser.Rectangle.contains(player.body, game.input.x, game.input.y)){
+                    player.body.velocity.setTo(0, 0);
                 }
-                main.updatePlayer();
+                grid.updatePlayer();
             }
             else{
-                main.player.body.velocity.setTo(0, 0);
+                player.body.velocity.setTo(0, 0);
             }
 
             // if(game.input.activePointer.isDown){
@@ -48,18 +54,17 @@ function startGame() {
             // }
 
 
-                main.player.rotation = game.physics.arcade.angleToPointer(main.player);
+                player.rotation = game.physics.arcade.angleToPointer(player);
 
-            main.update();
 
         }
 
     }
 
     function render() {
-        if(main.player){
+        if(player){
             // game.debug.cameraInfo(game.camera, 32, 32);
-            // game.debug.spriteCoords(main.player, 32, 500);
+            // game.debug.spriteCoords(player, 32, 500);
         }
     }
 
